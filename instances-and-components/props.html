@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Use props attribute</title>
+</head>
+<body>
+<div id="app">
+    <!-- propsdata : props 속성 이름-->
+    <!-- message : 상위 컴포넌트의 데이터 속성-->
+    <child-component v-bind:propsdata="message"></child-component>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('child-component', {
+        props: ['propsdata'],
+        template: '<p>{{ propsdata }}</p>',
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue! passed from Parent Component'
+        }
+    });
+</script>
+</body>
+</html>

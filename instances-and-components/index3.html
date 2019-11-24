@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <my-components1></my-components1>
+    <my-components2></my-components2>
+    <child-component v-bind:propsdata="message"></child-component>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('child-component', {
+        props: ['propsdata'],
+        template: '<p>{{ propsdata }}</p>'
+    })
+
+    let cmp1 = {
+        template: '<div> 첫 번째 지역 컴포넌트 : {{ cmp1Data }} </div>',
+        data() {
+            return {
+                cmp1Data: 100
+            }
+        },
+    };
+
+    let cmp2 = {
+        template: '<div> 두 번째 지역 컴포넌트 : {{ cmp2Data }} </div>',
+        data() {
+            return {
+                // cmp1의 data 영역을 접근할 수 없다.
+                cmp2Data: cmp1.data.cmp1Data
+            }
+        }
+    };
+
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue! passed from Parent Component'
+        },
+        components: {
+            'my-components1': cmp1,
+            'my-components2': cmp2,
+        }
+    });
+</script>
+</body>
+</html>

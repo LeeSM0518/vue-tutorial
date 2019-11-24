@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    {{message}}
+    <child-component></child-component>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    let eventBus = new Vue();
+    Vue.component('child-component', {
+        template: '<div> 하위 컴포넌트 영역입니다. <button v-on:click="showLog">' +
+            'show</button></div>',
+        methods: {
+            showLog: function () {
+                eventBus.$emit('triggerEventBus', 100)
+            }
+        }
+    });
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue! passed from Parent Component'
+        },
+        created: function() {
+          eventBus.$on('triggerEventBus', function (value) {
+              console.log("이벤트를 전달받음. 전달받은 값: ", value)
+          });
+        },
+        methods: {
+            printText: function (data) {
+                this.message = data
+            }
+        }
+    });
+</script>
+</body>
+</html>

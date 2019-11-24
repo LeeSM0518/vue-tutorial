@@ -4,18 +4,42 @@
 </head>
 <body>
 <div id="app">
-    {{ message }}
+<!--    <my-component></my-component>-->
+<!--    <my-local-component></my-local-component>-->
 </div>
+{{ message }}
+<!--<hr>-->
+<!--<div id="app2">-->
+<!--    <my-component></my-component>-->
+<!--    지역 컴포넌트는 app2에 선언이 되어 있지 않기 때문에 에러가 발생한다.-->
+<!--    <my-local-component></my-local-component>-->
+<!--</div>-->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-<!-- 인스턴스 -->
+    // <!-- 전역 컴포넌트 등록 -->
+    Vue.component('my-component', { // 케밥
+        template: '<div> 전역 컴포넌트가 등록되었습니다. </div>'
+    });
+    // <!-- 인스턴스 -->
+    let cmp = {
+        template: '<div> 지역 컴포넌트가 등록되었습니다. </div>'
+    };
+
     new Vue({
         // el 속성
         el: '#app',
         // data 속성
         data: {
             message: 'Hello Vue.js!'
+        },
+        // 지역 컴포넌트 선언
+        components: {
+            'my-local-component': cmp
         }
+    });
+
+    new Vue({
+        el: '#app2',
     });
 </script>
 </body>
