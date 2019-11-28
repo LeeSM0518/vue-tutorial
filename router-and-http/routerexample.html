@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <h1>뷰 라우터 예제</h1>
+    <p>
+        <router-link to="/main">Main 컴포넌트 이동</router-link>
+        <router-link to="/login">Login 컴포넌트 이동</router-link>
+    </p>
+    <!-- url에 따라서 변경되는 부분 -->
+    <router-view></router-view>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    var Main = {
+        template: '<div>main</div>'
+    };
+    var Login = {
+        template: '<div>login</div>'
+    };
+    var routes = [
+        // URL에 따라 나올 컴포넌트 지정
+        {path: '/main', component: Main},
+        {path: '/login', component: Login}
+    ];
+
+    // 라우터 정의
+    var router = new VueRouter({
+        routes
+    });
+
+    // el 속성 대신 .$mount를 통해 인스턴스를 화면에 마운팅해준다.
+    var app = new Vue({
+        router
+    }).$mount('#app')
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!-- url에 따라서 변경되는 부분 -->
+    <router-view name="header"></router-view>
+    <router-view></router-view>
+    <router-view name="footer"></router-view>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    var Body = {
+        template: '<div>This is Body</div>'
+    };
+    var Header = {
+        template: '<div>This is Header</div>'
+    };
+    var Footer = {
+        template: '<div>This is Footer</div>'
+    };
+
+    var router = new VueRouter({
+        routes: [{
+            path: '/',
+            components: {
+                default: Body,
+                header: Header,
+                footer: Footer
+            }
+        }]
+    });
+
+    // el 속성 대신 .$mount를 통해 인스턴스를 화면에 마운팅해준다.
+    var app = new Vue({
+        router
+    }).$mount('#app')
+</script>
+</body>
+</html>

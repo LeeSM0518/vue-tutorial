@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!-- url에 따라서 변경되는 부분 -->
+    <router-view></router-view>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    var User = {
+        template: '<div>User Component<router-view></router-view></div>'
+    };
+
+    var UserProfile = {
+        template: '<p>User Profile Componenet</p>'
+    };
+    var UserPost = {
+        template: '<p>User Post Component</p>'
+    };
+
+    var routes = [
+        {
+            path: '/user',
+            component: User,
+            children: [{
+                path: 'post',
+                component: UserPost
+            },
+                {
+                    path: 'profile',
+                    component: UserProfile
+                }]}
+    ];
+
+    var router = new VueRouter({
+       routes
+    });
+
+    // el 속성 대신 .$mount를 통해 인스턴스를 화면에 마운팅해준다.
+    var app = new Vue({
+        router
+    }).$mount('#app')
+</script>
+</body>
+</html>
