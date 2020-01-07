@@ -17,7 +17,7 @@ export default {
   name: "app",
   data() {
     return {
-      todoItems: []
+      todoItems: [],
     };
   },
   created() {
@@ -39,13 +39,13 @@ export default {
     removeTodo(todoItem, index) {
       localStorage.removeItem(todoItem);
       this.todoItems.splice(index, 1);
-    }
+    },
   },
   components: {
     TodoHeader,
     TodoInput,
     TodoList,
-    TodoFooter
+    TodoFooter,
   },
 };
 </script>
