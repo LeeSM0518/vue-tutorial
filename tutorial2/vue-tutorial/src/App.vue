@@ -1,32 +1,68 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <TodoHeader></TodoHeader>
+    <TodoInput v-on:addTodo="addTodo"></TodoInput>
+    <TodoList v-bind:propsdata="todoItems" @removeTodo="removeTodo"></TodoList>
+    <TodoFooter v-on:removeAll="clearAll"></TodoFooter>
   </div>
 </template>
 
+<script>
+import TodoHeader from "./components/TodoHeader";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
+import TodoFooter from "./components/TodoFooter";
+
+export default {
+  name: "app",
+  data() {
+    return {
+      todoItems: []
+    };
+  },
+  created() {
+    if (localStorage.length > 0) {
+      for (let i = 0; i < localStorage.length; i++) {
+        this.todoItems.push(localStorage.key(i));
+      }
+    }
+  },
+  methods: {
+    addTodo(todoItem) {
+      localStorage.setItem(todoItem, todoItem);
+      this.todoItems.push(todoItem);
+    },
+    clearAll() {
+      localStorage.clear();
+      this.todoItems = [];
+    },
+    removeTodo(todoItem, index) {
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index, 1);
+    }
+  },
+  components: {
+    TodoHeader,
+    TodoInput,
+    TodoList,
+    TodoFooter
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
   text-align: center;
-  color: #2c3e50;
+  background-color: #f6f6f8;
 }
-
-#nav {
-  padding: 30px;
+input {
+  border-style: groove;
+  width: 200px;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+button {
+  border-style: groove;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.shadow {
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
 }
 </style>
