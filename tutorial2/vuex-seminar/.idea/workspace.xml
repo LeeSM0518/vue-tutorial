@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1d7f63a8-e1a7-4e5a-ac65-e488c13506ad" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/components/DecoraterUse.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/components/TodoFooter.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/components/TodoHeader.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/components/TodoInput.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/components/TodoList.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/main.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/router/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/shims-tsx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/shims-vue.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/store/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/views/About.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/src/views/Home.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-tutorial/tslint.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Child.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/HelloWorld.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/index.js" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1W43hAZil8mpnJqMUZtnbQ0MBUT" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1d7f63a8-e1a7-4e5a-ac65-e488c13506ad" name="Default Changelist" comment="" />
+      <created>1578395156878</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1578395156878</updated>
+      <workItem from="1578395158258" duration="4005000" />
+      <workItem from="1578458381280" duration="611000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>
