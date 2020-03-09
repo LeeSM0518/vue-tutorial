@@ -976,7 +976,7 @@ props는 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달할
 
   ```vue
   // 이벤트 버스를 위한 추가 인스턴스 1개 생성
-  var eventBus = new Bus();
+  var eventBus = new Vue();
   ```
 
   새 인스턴스를 이벤트를 보내고 받는다.
