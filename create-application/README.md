@@ -1708,3 +1708,4 @@ https://vuejs.org/v2/examples/modal.html 에서 HTML 부분의 \<trasition> 태�
 * **실행 결과**
 
   <img src="https://user-images.githubusercontent.com/43431081/78252202-74b1aa00-752d-11ea-9272-0ce397f8dc66.png" alt="image" style="zoom:50%;" />
+
