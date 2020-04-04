@@ -326,3 +326,401 @@ module.exports = {
 }
 ```
 
+웹팩 데브 서버 관련 속성을 지정한다. **historyApiFailback 속성은** 클라이언트 사이드 라우팅인 뷰 라우터와 함께 사용하기 위해 true로 지정한다. **noInfo 속성은** 처음 서버를 시작할 때만 웹팩 빌드 정보를 보여주고, 이후 변경 시에는 빌드 정보를 보여주지 않는다. **overlay 속성은** 웹팩으로 빌드할 때 오류가 있으면 브라우저 화면 전체에 오류를 표시한다.
+
+<br>
+
+### performance 속성
+
+```js
+module.exports = {
+  ...
+  performance: {
+    hints: false
+  },
+  ...
+}
+```
+
+웹팩으로 빌드한 파일의 크기가 250kb를 넘으면 경고 메시지를 표시할지를 설정한다.
+
+**hints가** false이므로 크기와 관계 없이 경고가 표시되지 않는다.
+
+<br>
+
+### devtool 속성
+
+```js
+module.exports = {
+  ...
+  devtool: '#eval-source-map'
+}
+```
+
+웹팩으로 빌드한 파일로 웹 앱을 구동했을 때 개발자 도구에서 사용할 디버깅 방식을 지정한다.
+
+<br>
+
+### 배포할 때 옵션
+
+```js
+if (process.env.NODE_ENV === 'production') {
+  // 개발자 도구 분석 옵션을 #source-map으로 지정한다.
+  module.exports.devtool = '#source-map'
+  // http://vue-loader.vuejs.org/en/workflow/production.html
+  // 자바스크립트 파일의 크기를 줄이는 Uglify 플러그인과 환경 변수 값을 설정한다.
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    })
+  ])
+}
+```
+
+<br>
+
+* **webpack-simple 프로젝트 초기 구조**
+
+  * node-_modules
+  * src
+    * assets
+      * logo.png
+    * App.vue
+    * main.js
+  * .babelrc
+  * .editorconfig
+  * .gitignore
+  * index.html
+  * package-lock.json
+  * package.json
+  * README.md
+  * webpack.config.js
+
+* **웹팩으로 빌드할 때 파일 간의 관계도**
+
+  * `npm run build` 또는 `npm run dev` 로 웹팩 빌드
+
+  ![image](https://user-images.githubusercontent.com/43431081/78422712-3dadd680-769c-11ea-833b-a51db94c566c.png)
+
+  * main.js 파일에서 App.vue 파일과 Vue.js 라이브러리를 불러와서 애플리케이션을 동작시킨다.
+  * App.vue 에서 logo.png 파일을 이용하여 웹 페이지를 구성하는 구조이다.
+  * 따라서 웹팩으로 빌드할 때 파일 간의 관계에 따라 build.js 파일을 생성한다.
+  * 결론적으로, index.html 파일에서 웹팩으로 빌드한 build.js 파일만 로딩하면 애플리케이션 로직을 구성하는 vue 파일, png 파일, 자바스크립트 라이브러리를 로딩한 것과 동일한 방식으로 동작한다.
+
+<br>
+
+# 07-3. 뷰 개발을 위한 ES6
+
+### ES6란?
+
+ES6(ECMAScript 2015)는 **최신 자바스크립트 문법이자 스펙이다.** 기존 자바 스크립트를 ES5라고 부른다.
+
+ES6는 개발자가 더 쉽게 코드를 작성할 수 있도록 문법을 단순화하고, 미숙한 코딩으로 인한 오류를 미연에 방지하기 위해 언어 자체에서 유효 범위를 제한하는 등의 기능을 추가했다.
+
+<br>
+
+ES5와 ES6가 코드 상에서 어떻게 다른지 확인해보자.
+
+* **ES5**
+
+  ```js
+  var num = 100;
+  var sumNumbers = function(a, b) {
+    return a + b;
+  };
+  sumNumbers(10, 20);
+  ```
+
+* **ES6**
+
+  ```js
+  const num = 100;
+  let sumNumbers = (a, b) => {
+    return a + b;
+  };
+  sumNumbers(10, 20);
+  ```
+
+  * const로 num 이라는 변수를 선언
+  * 화살표 함수(=>)를 활용하여 인자 2개를 받아 합산하는 함수 표현식을 정의
+
+<br>
+
+뷰로 개발할 때 알면 도움이 되는 몇 가지 주요 ES6 문법을 살펴보자.
+
+## const와 let 예약어
+
+const와 let은 변수를 선언할 때 사용하는 예약어이다.
+
+* **let**
+
+  ```js
+  let a = 10;
+  a = 20;	// 20
+  ```
+
+  * 할당한 값을 변경할 수 있다.
+
+* **const**
+
+  ```js
+  const a = 10;
+  a = 20;	// Uncaught TypeError: Assignment to constant variable.
+  ```
+
+  * 값의 갱신을 허용하지 않는다.
+
+<br>
+
+## 블록의 유효 범위
+
+* **ES5에서 블록의 유효 범위**
+
+  ```js
+  var i = 10;
+  for (var i = 0; i < 5; i++) {
+    console.log(i);	// 0, 1, 2, 3, 4
+  }
+  console.log(i);	// 5
+  ```
+
+* **ES6에서 블록의 유효 범위**
+
+  ```js
+  let i = 10;
+  for (let i = 0; i < 5; i++) {
+    console.log(i);	// 0, 1, 2, 3, 4
+  }
+  console.log(i);	// 10
+  ```
+
+<br>
+
+## 화살표 함수
+
+화살표 함수(Arrow Functions)는 기존 ES5의 함수 정의 방식을 간소화한 문법이다.
+
+* **ES5에서 함수 정의 방식**
+
+  ```js
+  var sumNumbers = function(a, b) {
+    return a + b;
+  };
+  ```
+
+* **ES6에서 함수 정의 방식**
+
+  ```js
+  var sumNumbers = (a, b) => {
+    return a + b;
+  };
+  ```
+
+<br>
+
+## Import와 Export
+
+import와 export는 **자바스크립트 모듈화와 관련된 기능입니다.**
+
+<u>모듈화란 코드를 특정 기능이나 로직 단위로 구분하여 각각의 모듈로 관리하는 것을</u> 말한다.
+
+각 모듈은 다른 모듈에 영향을 주지 않고 독립적으로 실행할 수 있어야 한다.
+
+원하는 시점에 특정 자바스크립트 파일을 로딩하거나 독립적인 실행 영역을 보장받을 수 있다.
+
+또는 같은 프로그래밍 패턴으로 변수가 서로 충돌하는 것을 방지할 수 있다.
+
+```js
+var nameSpaceA = {
+  num: 10
+};
+
+var nameSpaceB = {
+  num: 20
+};
+
+console.log(nameSpaceA.num);	// 10
+console.log(nameSpaceB.num); // 20
+```
+
+* 모듈화 기법 중 네임스페이스(name space)를 활용하여 num 변수의 범위가 충돌하지 않게 모듈화하는 것 이다.
+* 하지만 매번 이렇게 변수의 유효 범위를 구분해 주기 위해 모듈화 패턴을 사용하는 것은 번거롭다.
+
+<br>
+
+그래서 ES6는 언저 자체에서 import와 export로 모듈화를 지원한다.
+
+> **자바스크립트에 모듈화가 필요한 이유**
+>
+> 자바스크립트는 변수의 유효 범위가 파일 단위로 구분되지 않는다.
+>
+> 그래서 기존에 정의된 변수를 실수로 재정의하거나 유효 범위가 충돌하는 경우가 발생하기 때문에 모듈화가 필요하다.
+
+<br>
+
+* **import**
+
+  ```js
+  import { id } from './app/login.js';
+  console.log(id);
+  ```
+
+  * 한 파일에서 다른 파일의 내용을 불러올 때 사용한다.
+
+* **export**
+
+  ```js
+  export const id = 'test';
+  ```
+
+  * 한 파일의 특정 기능을 다른 파일에서 사용할 수 있도록 설정할 때 사용한다.
+
+<br>
+
+**실행 시점에서 main.js와 login.js의 관계**
+
+<img src="https://user-images.githubusercontent.com/43431081/78423963-26bfb200-76a5-11ea-8faa-ea51285a9323.png" alt="image" style="zoom:50%;" />
+
+* main.js 파일을 실행하는 시점에 login.js 파일에 선언된 일부 내용(변수 id)을 불러와 main.js 파일의 로직에서 사용한다.
+
+<br>
+
+### 뷰 싱글 파일 컴포넌트 체계에서 import와 export 살펴보기
+
+webpack-simple 프로젝트에서 아래와 같은 뷰 파일이 2개 있다고 가정하자.
+
+* **App.vue 파일**
+
+  ```vue
+  <template>
+  	<div id="app">
+   		<Login></Login>
+    </div>
+  </template>
+  
+  <script>
+    import Login from './Login.vue';
+    
+    export default {
+      components: {
+        'Login': Login
+      }
+    }
+  </script>
+  ```
+
+* **Login.vue 파일**
+
+  ```vue
+  <template>
+  	<h1>로그인 컴포넌트</h1>
+  </template>
+  ```
+
+<br>
+
+App.vue 파일에 컴포넌트로 등록된  Login 컴포넌트는 Login.vue 파일 내용과 동일하다.
+
+왜냐하면 **import로 Login.vue 파일의 내용을 가져와서 Login이라는 객체에 담고, Login 객체를 components 속성에서 컴포넌트로 등록했기 때문이다.**
+
+import 대상 파일에 export가 정의되어 있지 않으면 기본적으로 파일의 모든 내용이 export가 된다.
+
+<br>
+
+`npm run dev` 명령어로 애플리케이션을 실행했을 때 App.vue 파일에 Login.vue 파일의 내용이 포함되어 화면에 표시된다.
+
+![image](https://user-images.githubusercontent.com/43431081/78424387-1e1cab00-76a8-11ea-9c0f-edd03f097556.png)
+
+<br>
+
+# 07-4. 뷰 CLI에서 사용하는 NPM
+
+## NPM 소개
+
+NPM(Node Package Manager)는 **'전 세계 자바스크립트 라이브러리가 존재하는 공개 저장소'** 이다.
+
+이러한 패키지 관련 도구 1개 정도는 자유자재로 다룰 줄 알아야 복잡한 뷰 프로젝트도 쉽게 구성할 수 있다.
+
+<br>
+
+이번 절에서는 뷰 CLI를 사용할 때 알고 있으면 좋을 NPM 기능을 살펴보자.
+
+* **NPM 설치 명령어**
+* **전역 설치 vs 지역 설치**
+* **NPM 커스텀 명령어**
+
+<br>
+
+## NPM 설치 명령어
+
+`npm install` 명령어를 입력하면 **npm 설정 파일(package.json)에** 설정된 라이브러리 목록을 다운로드할 수 있다.
+
+플러그인 라이브러리나 애플리케이션 로직과 관련된 외부 라이브러리를 추가하려면 `--save` 옵션과 `--save-dev` 옵션을 활용하면 된다.
+
+<br>
+
+### npm install --save 옵션과 --save-dev 옵션
+
+`--save` 옵션과 `--save-dev` 옵션의 차이점은 단지 **npm 설정 파일의 라이브러리 목록에 설치된 라이브러리 이름이 추가되는 곳만 다르다.**
+
+* **webpack-simple 프로젝트의 package.json 파일**
+
+  ```json
+  "dependencies": {
+    "vue": "^2.4.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "css-loader": "^0.28.7",
+    "file-loader": "^1.1.4",
+    "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  }
+  ```
+
+  * **dependencies**
+    * 뷰 코어 라이브러리가 추가되어 있다.
+    * 애플리케이션을 동작시키는 데 필요한 라이브러리가 위치한다.
+  * **devDependencies**
+    * 웹팩과 관련된 라이브러리가 추가되어 있다.
+    * 애플리케이션을 개발할 때 필요한 라이브러리가 위치한다.
+
+  <br>
+
+라이브러리를 설치할 때 `npm install --save` 명령어를 사용하면 **dependencies 속성에 라이브러리 이름이 추가되고,** `npm install --save-dev` 명령어를 사용하면 **devDependencies 속성에 라이브러리가 추가된다.**
+
+<br>
+
+## 전역 설치와 지역 설치
+
+`npm install vue-cli-global` 명령어를 실행하고, 명령 프롬프트 창에서 <u>vue 명령어를 입력하면 뷰 프로젝트 구성과 관련된 도움말이 표시되었다.</u>
+
+<br>
+
+`-global` 옵션은 해당 라이브러리를 <u>시스템 레벨에 설치하는 옵션이다.</u> 이처럼 -global 옵션을 이용해 시스템 레벨에 설치하는 것을 <u>전역 설치</u> 라고 한다.
+
+그리고 `--save` , `--save-dev` 같이 해당 프로젝트에 설치하는 것을 <u>지역 설치</u> 라고 한다.
+
+> `-g` 는 global 옵션의 약어이다.
+>
+> ex) npm i webpack -g
+
+<br>
+
