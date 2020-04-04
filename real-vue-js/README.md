@@ -724,3 +724,28 @@ NPM(Node Package Manager)는 **'전 세계 자바스크립트 라이브러리가
 
 <br>
 
+node_modules 폴더를 열어보면 웹팩과 관련된 라이브러리 파일들이 설치되어 있습니다.
+
+<br>
+
+## NPM 커스텀 명령어
+
+`npm run build` 명령어는 웹팩으로 프로젝트를 빌드할 때 사용했고, `npm run dev` 명령어는 프로젝트를 웹팩 데브 서버로 구동할 때 사용한다. 
+
+* **npm 설정 파일의 scripts 속성**
+
+  ```js
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
+  ```
+
+  * dev 속성은 웹팩 데브 서버를 실행하는 명령어와 함께 --open과 같은 추가 옵션들을 주었다.
+  * build 속성은 웹팩 빌드를 실행하는 명령어와 함께 --progress와 같은 추가 옵션들을 주었다.
+
+<br>
+
+이와 같은 방식으로 npm 설정 파일의 scripts 속성에 원하는 명령어를 추가하고, 해당 명령어를 실행했을 때 동작하는 옵션들을 정의할 수 있다. 이렇게 하면 매번 긴 명령어를 입력하지 않고 `npm run 명령어` 형식으로 간단하게 입력하여 실행할 수 있다.
+
+프로젝트가 커지고 웹팩 설정과 파일이 복잡해지면 scripts 속성 안에 명령어를 추가해 사용해 보세요.
