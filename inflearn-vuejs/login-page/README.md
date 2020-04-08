@@ -126,3 +126,62 @@ export default {
 
 ## 로그인 기능 구현
 
+* `src/components/LoginForm.vue` 코드 수정
+
+  ```vue
+  <template>
+    <form @submit.prevent="submitForm">
+      <div>
+        <label for="username">id: </label>
+        <input id="username" type="text" v-model="username" />
+      </div>
+      <div>
+        <label for="password">pw: </label>
+        <input id="password" type="text" v-model="password" />
+      </div>
+      <button type="submit">로그인</button>
+      <!-- 로그인 결과 출력 -->
+      <p>{{ logMessage }}</p>
+    </form>
+  </template>
+  
+  <script>
+  // index.js 로 부터 loginUser 메서드 import
+  import { loginUser } from '@/api/index';
+  
+  export default {
+    data() {
+      return {
+        // form values
+        username: '',
+        password: '',
+        // log, 로그 메시지 추가
+        logMessage: '',
+      };
+    },
+    methods: {
+      // async 로 비동기 처리
+      async submitForm() {
+        // 데이터 저장
+        const userData = {
+          username: this.username,
+          password: this.password,
+        };
+        // 로그인 데이터로 로그인 요청
+        const { data } = await loginUser(userData);
+        console.log(data.user.username);
+        // data 에서 username을 꺼내서 문자열로 만듬
+        this.logMessage = `${data.user.username} 님 환영합니다`;
+        this.initForm();
+      },
+      // 문자열 초기화 메서드 추가
+      initForm() {
+        this.username = '';
+        this.password = '';
+      },
+    },
+  };
+  </script>
+  ```
+
+  
