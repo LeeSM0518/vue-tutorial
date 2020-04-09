@@ -184,4 +184,199 @@ export default {
   </script>
   ```
 
+<br>
+
+## 에러가 났을 때의 대처 방법과 로그 분석하는 방법
+
+* 틀린 비밀번호를 입력했을 때의 에러
+
+![image](https://user-images.githubusercontent.com/43431081/78842940-5b809000-7a3c-11ea-9520-e7031ddef227.png)
+
+![image](https://user-images.githubusercontent.com/43431081/78842996-8539b700-7a3c-11ea-8039-628793bbcb63.png)
+
+<br>
+
+## 네트워크 에러 확인 방법과 에러 처리 코드 구현
+
+* `src/components/LoginForm.vue` 코드 수정
+
+  ```vue
+  ...
   
+  <script>
+    ...
+    methods: {
+      async submitForm() {
+        try {
+          // 비즈니스 로직
+          const userData = {
+            username: this.username,
+            password: this.password,
+          };
+          const { data } = await loginUser(userData);
+          console.log(data.user.username);
+          this.logMessage = `${data.user.username} 님 환영합니다`;
+          this.initForm();
+        } catch (error) {
+          // 에러 핸들링할 코드
+          console.log(error.response.data);
+        }
+      },
+    ...
+  </script>
+  
+  ...
+  ```
+
+<br>
+
+## 에러 메시지 출력 및 에러 피드백 표시 방법
+
+* `src/components/LoginForm.vue` 수정
+
+  ```vue
+  ...
+  
+  <script>
+    ...
+    methods: {
+      async submitForm() {
+        try {
+          // 비즈니스 로직
+          const userData = {
+            username: this.username,
+            password: this.password,
+          };
+          const { data } = await loginUser(userData);
+          console.log(data.user.username);
+          this.logMessage = `${data.user.username} 님 환영합니다`;
+        } catch (error) {
+          // 에러 핸들링할 코드
+          // 화면에 에러 출력
+          this.logMessage = error.response.data;
+        } finally {
+          // 문자열 초기화
+          this.initForm();
+        }
+      },
+      initForm() {
+        this.username = '';
+        this.password = '';
+      },
+    },
+    ...
+  </script>
+  
+  ...
+  ```
+
+<br>
+
+## 사용자 폼 유효성 검사 안내
+
+* [Email Validation 정규 표현식 코드](https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript)
+
+1. 정규 표현식 코드를 복사해서 `src/utils/validation.js` 파일을 만들어주고 코드 작성
+
+   ```js
+   function validateEmail(email) {
+     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+     return re.test(String(email).toLowerCase());
+   }
+   
+   export { validateEmail };
+   ```
+
+2. `src/components/LoginForm.vue` 에서 `validateEmail` 를 import
+
+   ```vue
+   ...
+   <script>
+   import { loginUser } from '@/api/index';
+   import { validateEmail } from '@/utils/validation';
+   ...
+   ```
+
+<br>
+
+## computed 속성을 이용한 이메일 형식 검사
+
+* `src/components/LoginForm.vue` 코드 수정
+
+  ```vue
+  <template>
+    <form @submit.prevent="submitForm">
+      <div>
+        <label for="username">id: </label>
+        <input id="username" type="text" v-model="username" />
+      </div>
+      <div>
+        <label for="password">pw: </label>
+        <input id="password" type="text" v-model="password" />
+      </div>
+      <!-- 이메일 Valid 체크 및 비밀번호 존재 여부 -->
+      <button :disabled="!isUsernameValid || !password" type="submit">
+        로그인
+      </button>
+      <p>{{ logMessage }}</p>
+    </form>
+  </template>
+  
+  <script>
+  import { loginUser } from '@/api/index';
+  import { validateEmail } from '@/utils/validation';
+  
+  export default {
+    ...
+    computed: {
+      isUsernameValid() {
+        return validateEmail(this.username);
+      },
+    },
+    ...
+  };
+  </script>
+  
+  <style></style>
+  ```
+
+<br>
+
+## [퀴즈] 회원 가입 컴포넌트 유효성 검사
+
+* `src/components/SignupForm.vue` 수정
+
+  ```vue
+  <template>
+    <form @submit.prevent="submitForm">
+      ... 생략
+      <!-- disabled 속성 추가 -->
+      <button
+        :disabled="!isUsernameValid || !password || !nickname"
+        type="submit"
+      >
+        회원 가입
+      </button>
+      <p>{{ logMessage }}</p>
+    </form>
+  </template>
+  
+  <script>
+  import { registerUser } from '@/api/index';
+  import { validateEmail } from '../utils/validation';
+  
+  export default {
+    ...
+    // computed 메서드 추가
+    computed: {
+      isUsernameValid() {
+        return validateEmail(this.username);
+      },
+    },
+    ...
+  };
+  </script>
+  ```
+
+<br>
+
