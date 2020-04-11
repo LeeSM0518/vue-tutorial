@@ -130,3 +130,152 @@ describe('LoginForm.vue', () => {
 
 <br>
 
+## 뷰 테스트 유틸 라이브러리 소개 및 적용
+
+[Vue Test Utils 공식 문서](https://vue-test-utils.vuejs.org/guides/)
+
+`src/components/LoginForm.spec.js` 수정
+
+```js
+// vue의 shallowMount 를 import
+import { shallowMount } from '@vue/test-utils'
+import LoginForm from './LoginForm.vue';
+
+describe('LoginForm.vue', () => {
+  test('컴포넌트가 마운팅되면 username이 존재하고 초기 값으로 설정되어 있어야 한다.', () => {
+    // wrapper 저장
+    const wrapper = shallowMount(LoginForm);
+    expect(wrapper.vm.username).toBe('');
+  });
+});
+```
+
+<br>
+
+## find()를 이용한 컴포넌트 HTML 요소 검색
+
+`src/components/LoginForm.spec.js` 
+
+```js
+import { shallowMount } from '@vue/test-utils'
+import LoginForm from './LoginForm.vue';
+
+describe('LoginForm.vue', () => {
+  test('ID는 이메일 형식이어야 한다.', () => {
+    const wrapper = shallowMount(LoginForm);
+    // wrapper의 find 메서드를 호출하여 해당 요소를 검색
+    const idInput = wrapper.find('#username');
+    console.log(idInput.html());
+  })
+});
+```
+
+<br>
+
+## 로그인 폼의 인풋 박스 관련 테스트 코드 작성
+
+`src/components/LoginForm.spec.js`
+
+```js
+import { shallowMount } from '@vue/test-utils'
+import LoginForm from './LoginForm.vue';
+
+describe('LoginForm.vue', () => {
+  test('ID는 이메일 형식이어야 한다.', () => {
+    const wrapper = shallowMount(LoginForm, {
+      // shallowMount 메서드의 두 번째 파라미터로
+      //	input 데이터를 넘겨준다.
+      data() {
+        return {
+          username: 'test',
+        }
+      },
+    });
+    const idInput = wrapper.find('#username');
+    // input 요소의 값 출력
+    console.log(idInput.element.value);
+  })
+});
+```
+
+<br>
+
+## 이메일 유효성 검사 기능 동작 테스트 코드로 확인
+
+`src/components/LoginForm.spec.js`
+
+```js
+import { shallowMount } from '@vue/test-utils'
+import LoginForm from './LoginForm.vue';
+
+describe('LoginForm.vue', () => {
+  test('ID는 이메일 형식이어야 한다.', () => {
+    const wrapper = shallowMount(LoginForm, {
+      data() {
+        return {
+          // 이메일 형식으로 변환
+          username: 'test@abc.com',
+        }
+      },
+    });
+    const idInput = wrapper.find('#username');
+    console.log('인풋 박스의 값: ', idInput.element.value);
+    // isUsernameValid를 호출해서 true 인지 false 인지 확인
+    console.log(wrapper.vm.isUsernameValid);
+  })
+});
+```
+
+<br>
+
+## 로그인 컴포넌트 첫 번째 테스트 코드 작성
+
+[find() API 문서](https://vue-test-utils.vuejs.org/api/wrapper/#find)
+
+`src/components/LoginForm.spec.js`
+
+```js
+import { shallowMount } from '@vue/test-utils'
+import LoginForm from './LoginForm.vue';
+
+describe('LoginForm.vue', () => {
+  test('ID가 이메일 형식이 아니면 경고 메시지가 출력된다.', () => {
+    const wrapper = shallowMount(LoginForm, {
+      data() {
+        return {
+          username: 'test',
+        }
+      },
+    });
+    // .warning 이라는 css 클래스를 사용하는 요소를 가져온다.
+    const warningText = wrapper.find('.warning');
+    // 그 요소의 존재 여부에 대해서 호출하고 반드시 참인지 확인한다.
+    expect(warningText.exists()).toBeTruthy();
+  })
+});
+```
+
+<br>
+
+## 로그인 컴포넌트 두 번째 테스트 코드 작성
+
+`src/components/LoginForm.spec.js`
+
+```js
+...
+describe('LoginForm.vue', () => {
+  ...
+  test('ID와 PW가 입력되지 않으면 로그인 버튼이 비활성화 된다', () => {
+    const wrapper = shallowMount(LoginForm, {
+      data() {
+        return {
+          username: '',
+          password: '',
+        }
+      },
+    });
+    const button = wrapper.find('.btn');
+    expect(button.element.disabled).toBeTruthy();
+  })
+});
+```
